@@ -1,14 +1,16 @@
 class Solution:
     def numSquares(self, n: int) -> int:
-        dp = [n+1]*(n+1)
-        dp[0] = 0
-        def ans(val: int) -> int:
-            if dp[val]<=n:
-                return dp[val]
-            i = 1
-            while i*i <= val:
-                dp[val] = min(ans(val - i*i) + 1,dp[val])
-                i += 1
-            return dp[val]
+        def is_square(n):
+            return int(n**(1/2))**2 == n
+        
+        if is_square(n): return 1
+        
+        while n % 4 == 0: n >>= 2
 
-        return ans(n)
+        if n % 8 == 7: return 4
+
+        sqrt_from_n = int(n**(1/2))
+        for i in range(1, sqrt_from_n + 1):
+            if is_square(n - i*i): return 2
+        
+        return 3
