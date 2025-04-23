@@ -6,14 +6,19 @@
 #         self.right = right
 class Solution:
     def minCameraCover(self, root: Optional[TreeNode]) -> int:
-        def get_ans(node):
+        ans = 0
+        def dfs(node):
+            nonlocal ans
             if not node:
-                return [10**3,0,0]
-            a = get_ans(node.left)
-            b = get_ans(node.right)
-            return [
-                min(a)+min(b)+1,
-            min(a[0]+min(b[:2]),b[0]+min(a[:2])),
-            min(a[:2])+min(b[:2])
-            ]
-        return min(get_ans(root)[:2])
+                return 1
+            l = dfs(node.left)
+            r = dfs(node.right)
+            if l ==2 or r==2 :
+                ans += 1
+                return 0
+            else:
+                return min(l,r)+1
+        if dfs(root) == 2:
+            ans += 1
+        return ans
+            
