@@ -1,22 +1,24 @@
 class Solution:
     def isMatch(self, s: str, p: str) -> bool:
-
-        m = {}
-        def solve(a: int,b: int,text: str,pattern: str) ->bool:
-            if a<0 and b<0:
-                return True
-            if b<0 and a>=0:
+        s_len, p_len = len(s), len(p)
+        s_idx = p_idx = 0
+        star_idx = s_tmp_idx = -1
+        while s_idx < s_len:
+            if p_idx < p_len and  p[p_idx] in (s[s_idx], "?"):
+                s_idx += 1
+                p_idx += 1
+            elif p_idx < p_len and p[p_idx] == "*":
+                star_idx = p_idx
+                s_tmp_idx = s_idx
+                p_idx += 1
+            
+            elif star_idx == -1:
                 return False
-            if (a,b) in m:
-                return m[(a,b)]
-            if a<0 and b>=0:
-                return all(c == '*' for c in pattern[:b+1])
-            m[(a,b)] = False
-            if  text[a] == pattern[b] or pattern[b] == '?':
-                m[(a,b)] = solve(a-1,b-1,text,pattern)
-            if pattern[b] == '*':
-                m[(a,b)] = solve(a-1,b,text,pattern) or solve(a,b-1,text,pattern)
-            return m[(a,b)]
 
+            else:
+               
+                p_idx = star_idx + 1
+                s_idx = s_tmp_idx + 1
+                s_tmp_idx = s_idx
 
-        return solve(len(s)-1,len(p)-1,s,p)
+        return all(p[i] == "*" for i in range(p_idx, p_len))
