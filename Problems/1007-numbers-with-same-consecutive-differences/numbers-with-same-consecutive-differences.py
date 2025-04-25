@@ -1,25 +1,16 @@
 class Solution:
     def numsSameConsecDiff(self, n: int, k: int) -> List[int]:
-        @cache
-        def get_val(n: int, val: int) -> list[int]:
-            nonlocal k
-            ans = []
-            if n == 1:
-                if val > 0:
-                    return [val]
-                return []
-            if val - k >= 0:
-                for x in get_val(n - 1, val - k):
-                    ans.append(x * 10 + val)
-            if val + k < 10 and k!=0:
-                for x in get_val(n - 1, val + k):
-                    ans.append(x * 10 + val)
-
-            return ans
-
-        result = []
-        for i in range(10):
-            l = get_val(n, i)
-            for v in l:
-                result.append(v)
-        return result
+        if n == 1:
+            return [i for i in range(10)]
+        q = [digit for digit in range(1,10)]
+        for level in range(n - 1):
+            next_q = []
+            for num in q:
+                tail_digit = num % 10 
+                next_digits = set([tail_digit - k, tail_digit + k])
+                for next_digit in next_digits:
+                    if 0 <= next_digit < 10:
+                        new_num = num * 10 + next_digit
+                        next_q.append(new_num)
+            q = next_q 
+        return q
