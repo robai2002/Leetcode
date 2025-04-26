@@ -1,41 +1,41 @@
+from collections import defaultdict
 class TrieNode:
     def __init__(self):
         self.children = {}
-        self.endofWord = False
+        self.is_end_of_word = False
+
 class WordDictionary:
 
     def __init__(self):
         self.root = TrieNode()
 
     def addWord(self, word: str) -> None:
-        cur = self.root
-        for c in word:
-            if c not in cur.children:
-                cur.children[c] = TrieNode()
-            cur = cur.children[c]
-        cur.endofWord = True
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = TrieNode()
+            node = node.children[char]
+        node.is_end_of_word = True
+
     def search(self, word: str) -> bool:
-    
-        def dfs(ind,root):
-            cur = root
-            for i in range(ind,len(word)):
-                c = word[i]
-                if c == ".":
-                    for child in cur.children.values():
-                        if dfs(i+1,child):
-                            return True
+ 
+       
+        def  dfs(node,index):
+            if index ==len(word):
+                return node.is_end_of_word
+            
+            char = word[index] 
+
+            if char ==  ".":
+                for neighbor in node.children.values():
+              
+                    if dfs(neighbor,index +1):
+                        return True
+                return False
+            elif char!= ".":
+                if  char not in node.children:
                     return False
-                elif c not in cur.children:
-                    cur.children[c] = TrieNode()
-                cur = cur.children[c]
-            return cur.endofWord
-        
-        return dfs(0,self.root)
-
-
-
-
-# Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
+                
+                return dfs(node.children[char],index +1)
+                               
+        return dfs(self.root,0)
