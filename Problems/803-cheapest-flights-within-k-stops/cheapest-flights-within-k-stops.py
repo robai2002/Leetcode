@@ -1,32 +1,46 @@
+import heapq
+from collections import defaultdict
+from collections import deque
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        # [distance,k,node]
-        l = []
-        heappush(l,[0,0,src])
-        graph = [[] for i in range(n)]
-        for x in flights:      
-            # destination ,distance
-            graph[x[0]].append(x[1:])
-        # for l in graph:
-        #     print(l)
-        dct = {}
-        dct[(src,0)] = 0
-        while l:
-            d,p,node = heappop(l)    
-            if node == dst:return d
-            if p>k:continue
-            if dct[(node,p)] < d:continue
-            p += 1
-            for q in graph[node]: 
-                distance = q[1]+d
-                if (q[0],p) not in dct:
-                    dct[(q[0],p)] = distance
-                    heappush(l,[distance,p,q[0]])
-                elif dct[(q[0],p)]>distance:
-                    dct[(q[0],p)]= distance
-                    heappush(l,[distance,p,q[0]])
+
+        graph = defaultdict(list)
+
+        for f,t,p in flights:
+            graph[f].append((p,t))
+
+        dist = [float('inf') for i in range(n)]
+        dist[src] = 0
+
+        queue = deque()
+        queue.append((0, src, 0)) 
+     
+
+
+        while queue:
+
+            stops,source,price = queue.popleft()
+            if stops>k:
+                continue
+          
+
+            for p,v in graph[source]:
+
+                alt = price+p
+
+                if alt<dist[v] :
+                    
+                    dist[v] = alt
+                    queue.append((stops+1,v,alt))
+        out =  dist[dst]
+
+        return out if out!=float('inf') else -1
+
+
+
+
 
         
 
-        return -1
 
+        
