@@ -13,7 +13,7 @@ class Solution:
         def dfs(ind: int) -> None:
             print(ind,part)
             if ind == len(s):
-                ans.append(part.copy())
+                ans.append(part[:])
                 return 
             for i in range(ind,len(s)):
                 if isValid(ind,i):
