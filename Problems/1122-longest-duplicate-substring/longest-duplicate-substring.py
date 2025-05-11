@@ -18,7 +18,7 @@ class Solution:
 
                 if i>=v-1:
                     m[window] = i-v+1
-            return "bakacoda"
+            return None
 
 
 
@@ -29,10 +29,10 @@ class Solution:
         while l<h:
             mid = (l+h+1)//2
             res = robin_karp(mid)
-            if res == "bakacoda":
+            if not res:
                 h = mid - 1
             else:
                 ans = res
                 l = mid
-    #    // return robin_karp(3)   
+   
         return ans
