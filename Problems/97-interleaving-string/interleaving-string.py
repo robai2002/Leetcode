@@ -1,25 +1,38 @@
+# Naive backtracking
+# node -> pick how many characters from s1 or s2
+# Then alternating picking from s1 and s2 and see if we can complete s3
+
+
 class Solution:
     def isInterleave(self, s1: str, s2: str, s3: str) -> bool:
-        if len(s1) + len(s2) != len(s3):
-            return False
+        
+        n, m = len(s1), len(s2)
+        @lru_cache(maxsize=None)
+        def dp(i, j):
+            nonlocal s1, s2, s3, n, m
+            # index for s3
+            k = i + j
 
-        @cache
-        def ans(i: int, j: int, k: int, b: int) -> bool:
-            if k == len(s3):
+            # Base case
+            if i == n and j == m:
                 return True
-            if b:
-                while k < len(s3) and j<len(s2) and s2[j] == s3[k]:
-                    j += 1
-                    k += 1
-                    if ans(i, j, k, 1 - b):
-                        return True
-            else:
-                while k<len(s3) and i<len(s1) and s1[i] == s3[k]:
-                    i += 1
-                    k += 1
-                    if ans(i,j,k,1-b):
-                        return True
-            return False
-            
 
-        return ans(0, 0, 0, 0) | ans(0, 0, 0, 1)
+
+            # Recursive case
+            # print(i, j, k)
+            if i <= n - 1 and s1[i] == s3[k] and dp(i + 1, j):
+                return True
+            
+            if j <= m - 1 and s2[j] == s3[k] and dp(i, j + 1):
+                return True
+
+            return False
+
+        if n + m != len(s3):
+            return False
+
+        return dp(0, 0)
+
+
+
+            
