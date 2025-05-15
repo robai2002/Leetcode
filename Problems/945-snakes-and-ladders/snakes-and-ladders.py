@@ -1,35 +1,29 @@
 class Solution:
     def snakesAndLadders(self, board: List[List[int]]) -> int:
-        n = len(board)
-        l = [i for i in range(n*n)]
-        step = [400 for i in range(n*n)]
-        for i in range(n):
-            x = (n-i-1)*n
-            for j in range(n):
-                y =  j if (n-i)&1==1 else n-j-1
-                y+=x
-                l[y] = y if board[i][j] == -1 else board[i][j] -1
-                print(y,l[y],board[i][j])
-        print(l)
+        length = len(board)
+        board.reverse()
 
+        def postocord(pos):
+            r = (pos-1) // length
+            c = (pos-1) % length
+            if r % 2 == 1:
+                c = length-1-c
+            return [r, c]
 
         q = deque()
-        q.append([0,0])
-     
-        while q:
-            a,b = q.popleft()
-            if a == n*n-1:
-                return b
-            b += 1
-            for i in range(6,0,-1):
-                if a+i>=n*n:continue
-                i = l[a+i]
-                if step[i]>b:
-                    step[i] = b
-                    q.append([i,step[i]])
-        
+        # pos, moves --> cord, moves
+        q.append([1, 0])
+        visit = set()
+        while(q):
+            pos, moves = q.popleft()
+            for i in range(1, 7):
+                nextpos = pos + i
+                r, c = postocord(nextpos)
+                if board[r][c] != -1:
+                    nextpos = board[r][c]
+                if nextpos == length * length:
+                    return moves+1
+                if nextpos not in visit:
+                    visit.add(nextpos)
+                    q.append([nextpos, moves+1])
         return -1
-                    
-
-
-        
