@@ -3,7 +3,7 @@ from typing import List
 
 class Solution:
     def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:
-        # Convert bank to a set for O(1) lookup
+        
         lookup = set(bank)
         if endGene not in lookup:
             return -1
@@ -22,6 +22,6 @@ class Solution:
                     next_str = cur[:i] + c + cur[i+1:]
                     if next_str in lookup:
                         q.append((next_str, level + 1))
-                        lookup.remove(next_str)  # Mark as visited
+                        lookup.remove(next_str) 
 
         return -1
