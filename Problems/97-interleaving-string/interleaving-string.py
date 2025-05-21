@@ -10,15 +10,15 @@ class Solution:
         @lru_cache(maxsize=None)
         def dp(i, j):
             nonlocal s1, s2, s3, n, m
-            # index for s3
+
             k = i + j
 
-            # Base case
+    
             if i == n and j == m:
                 return True
 
 
-            # Recursive case
+           
             # print(i, j, k)
             if i <= n - 1 and s1[i] == s3[k] and dp(i + 1, j):
                 return True
