@@ -1,37 +1,27 @@
 class MedianFinder:
 
     def __init__(self):
-        self.mxhp = []
-        self.mnhp = []
-        self.length = 0
+        self.firstHeap=[]
+        self.secondHeap=[]
 
     def addNum(self, num: int) -> None:
-        self.length += 1
-        # print(self.mnhp,self.mxhp,end = " : ")
-        if self.mnhp:
-            mnmin = - heapq.heappop(self.mnhp)
-            if num<mnmin:
-                mnmin,num=num,mnmin
-            heapq.heappush(self.mnhp,-mnmin)
-        # print(self.mnhp,self.mxhp,end = " : ")
-        heapq.heappush(self.mxhp,num)
-        if len(self.mxhp) - len(self.mnhp)>1:
-            x = heapq.heappop(self.mxhp)
-            heapq.heappush(self.mnhp,-x)
-        # print(self.mnhp,self.mxhp)
+        if not self.firstHeap or num<-(self.firstHeap[0]):
+            heapq.heappush(self.firstHeap,-num)
+        else:
+            heapq.heappush(self.secondHeap,num)   
 
+        if len(self.firstHeap)>len(self.secondHeap)+1:
+            element=-heapq.heappop(self.firstHeap)
+            heapq.heappush(self.secondHeap,element)
+        elif len(self.secondHeap)>len(self.firstHeap):
+            element=heapq.heappop(self.secondHeap)
+            heapq.heappush(self.firstHeap,-element)
 
     def findMedian(self) -> float:
-        # print(self.mnhp,self.mxhp)
-        if not self.mxhp:
-            return 0.0
-        y = heapq.heappop(self.mxhp)
-        heapq.heappush(self.mxhp,y)
-        if self.length%2 ==0:
-            x = heapq.heappop(self.mnhp)
-            heapq.heappush(self.mnhp,x)
-            y = (y-x)/2
-        return y
+        if len(self.firstHeap)>len(self.secondHeap):
+            return -self.firstHeap[0]
+        else:
+            return (-(self.firstHeap[0])+self.secondHeap[0])/2
         
 
 
