@@ -1,32 +1,17 @@
-from typing import List
-from functools import cache
-
 class Solution:
     def maxValue(self, events: List[List[int]], k: int) -> int:
-        events.sort()
 
-        def binary_search(ind: int) -> int:
-            val = events[ind][1]
-            l, r = ind + 1, len(events)
+        n = len(events)
+        events.sort(key =lambda x:x[1])
+        dp = [[0 for i in range(k+1)]for i in range(n+1)]
+        ends = [ event[1] for event in events ]
 
-            while l < r:
-                mid = (l + r) // 2
-                if events[mid][0] > val:
-                    r = mid
-                else:
-                    l = mid + 1
+        for i in range(n):
+            s,e,v = events[i]
+            ind = bisect.bisect_right(ends,s-1)
+            for j in range(1,k+1):
+                dp[i+1][j] = max(dp[i][j],v+dp[ind][j-1])
+        
 
-            return l
-
-        @cache
-        def solution(ind: int, k: int) -> int:
-            if k == 0 or ind >= len(events):
-                return 0
-           
-            res = solution(ind + 1, k)
-           
-            next_ind = binary_search(ind)
-            res = max(res, events[ind][2] + solution(next_ind, k - 1))
-            return res
-
-        return solution(0, k)
+        return dp[-1][-1]
+      
