@@ -3,10 +3,7 @@ class Solution:
         ans = set()
         curs = set()
         for a in arr:
-            ns = set()
-            for v in curs:
-                v|=a
-                ns.add(v)
+            ns = {a|v for v in curs}
             ns.add(a)
             ans.update(ns)
             curs = ns
