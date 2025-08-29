@@ -1,4 +1,4 @@
 class Solution:
     def flowerGame(self, n: int, m: int) -> int:
-        return (n//2)*((m+1)//2) + (m//2)*((n+1)//2)
+        return n*m//2
         
