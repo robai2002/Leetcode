@@ -10,7 +10,7 @@ class Solution:
             else:
                 ans = int(c>=k)
                 c = 1
-            if c==2*k or ans +c//k>1:
+            if ans +c//k>1:
                 return True
             prev = num
             #print(num,c)
