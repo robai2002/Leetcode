@@ -18,9 +18,6 @@ class Solution:
             else:
                 c = 1
             dpb[ind] = c
-        c = 1
-        for i in range(n-1):
-            c = max(c,min(dpf[i],dpb[i+1]))
         
-        return c
+        return max(min(dpf[i],dpb[i+1]) for  i in range(n-1))
             
