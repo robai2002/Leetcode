@@ -4,35 +4,38 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+def get_subtree_sum(node: TreeNode, subtree_sums: list):
+    if node is None:
+        return 0
+
+    total_sum = node.val
+
+    total_sum += get_subtree_sum(node.left, subtree_sums)
+
+    total_sum += get_subtree_sum(node.right, subtree_sums)
+
+    subtree_sums.append(total_sum)
+
+    return total_sum
+
+
+def get_max_product(node: TreeNode):
+    subtree_sums = list()
+
+    total_sum = get_subtree_sum(node, subtree_sums)
+
+    max_product = 0
+
+    for s in subtree_sums:
+        product = s * (total_sum - s)
+
+        if product > max_product:
+            max_product = product
+
+    return max_product % (10**9 + 7)
+
+
 class Solution:
     def maxProduct(self, root: Optional[TreeNode]) -> int:
-        
-        def dfs(node: Optional[TreeNode])->int:
-            if not node:
-                return 0
-            return node.val + dfs(node.left) + dfs(node.right)
-
-        def dfs1(node:Optional[TreeNode],s: int):
-            if not node:
-                return 0,0
-            a,b = dfs1(node.left,s)
-            x,y = dfs1(node.right,s)
-            p = b+y+node.val
-            
-            if abs(s-2*p)<abs(s-2*x) and abs(s-2*p)<abs(s-2*a):
-                # print(node.val,a,b,x,y,p,p)
-                return p,p
-            elif abs(s-2*a)<abs(s-2*x):
-               # print(node.val,a,b,x,y,a,p,end = "a \n")
-                return a,p
-            else:
-               # print(node.val,a,b,x,y,b,p,end = " b\n")
-                return x,p
-
-        s = dfs(root)
-        #print(root.right.right)
-        d1,d2 = dfs1(root,s)
-        return d1*(s-d1)%(10**9+7)
-        
-        
-        
+        return get_max_product(root)
