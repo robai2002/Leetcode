@@ -1,9 +1,13 @@
 class Solution:
     def customSortString(self, order: str, s: str) -> str:
-        l = list(s)
-        mp = dict()
-        for ind,ch in enumerate(order,start = 1):
-            mp[ch] = ind
-        l.sort(key =lambda x: mp.get(x,0))
-        
-        return "".join(l)
+        result = ""
+        mp = {}
+        for char in s:
+            mp[char] = mp.get(char, 0) + 1
+        for char in order:
+            if char in mp:
+                result += char * mp[char]
+                del mp[char]
+        for char, count in mp.items():
+            result += char * count
+        return result
