@@ -4,6 +4,5 @@ class Solution:
         ans = 10**9
         for x,y in pairwise(arr):
             ans = min(ans,y-x)
-        print(ans)
         return [[x,y] for x,y in pairwise(arr) if y-x==ans]
         
