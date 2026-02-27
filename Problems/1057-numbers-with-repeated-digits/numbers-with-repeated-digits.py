@@ -20,7 +20,7 @@ class Solution:
                         ans += z
             else:
                 ans += (p-49)*z
-            print(ind,ch,p,z,ans)
+            #print(ind,ch,p,z,ans)
             if ch in st:
                 return n-ans
             z//= (9-ind)
