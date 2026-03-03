@@ -3,10 +3,10 @@ class Solution:
         c = Counter(nums)
         arr = list(c.keys())
         arr.sort()
-        for ind,val in enumerate(arr):
-            for i in range(ind+1,len(arr)):
-                if c[val]!=c[arr[i]]:
-                    return [val,arr[i]]
+        val = arr[0]
+        for i in range(1,len(arr)):
+            if c[val]!=c[arr[i]]:
+                return [val,arr[i]]
 
 
         return [-1,-1]
