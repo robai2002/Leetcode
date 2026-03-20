@@ -1,4 +1,4 @@
-
+# Added using AI
 class Solution:
     def minAbsDiff(self, grid: list[list[int]], k: int) -> list[list[int]]:
         m, n = len(grid), len(grid[0])
@@ -14,6 +14,6 @@ class Solution:
                 if len(v) <= 1:
                     ans[i][j] = 0
                 else:
-                    ans[i][j] = min(v[p+1] - v[p] for p in range(len(v) - 1))
+                    ans[i][j] = min(y-x for x,y in pairwise(v))
 
         return ans
