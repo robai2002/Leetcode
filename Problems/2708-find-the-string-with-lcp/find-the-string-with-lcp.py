@@ -21,14 +21,12 @@ class Solution:
       
         for i in range(n):
             for j in range(n):
-                if s[i] == s[j]:
-                    if i == n - 1 or j == n - 1:
-                        prevpref = 0
-                    else:
-                        prevpref = lcp[i + 1][j + 1]
-                    prefix = 1 + prevpref
+                if s[i] != s[j] or i == n - 1 or j == n - 1:
+                    prevpref = int(s[i]==s[j])
                 else:
-                    prefix = 0
+                    prevpref = lcp[i + 1][j + 1] + 1
+                prefix = prevpref
+                
                 if prefix != lcp[i][j]:
                     return ""
         
