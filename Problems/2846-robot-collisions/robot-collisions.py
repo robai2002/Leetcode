@@ -17,14 +17,11 @@ class Solution:
                     s.pop()
                     healths[c] -= 1
                 if not s:
-                    if healths[c]>0:
-                        ans.append(c)
+                    ans.append(c)
                 elif healths[s[-1]] == healths[c]:
                     s.pop()
                 else:
                     healths[s[-1]] -= 1
-                    
-
             else:
                 s.append(c)
            # print(s)
