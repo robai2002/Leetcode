@@ -1,38 +1,27 @@
 class Solution:
     def survivedRobotsHealths(self, positions: List[int], healths: List[int], directions: str) -> List[int]:
         n = len(positions)
-        ans = []
-        arr = []
-
-        for i in range(n):
-            a,b,c = positions[i],0 if directions[i]=='L' else 1, i
-            arr.append([a,b,c])
-        arr.sort()
-      #  print(arr)
-        s = []
-        
-        for a,b,c in arr:
-            if b==0:
-                while s and healths[s[-1]] < healths[c]:
-                    s.pop()
-                    healths[c] -= 1
-                if not s:
-                    ans.append(c)
-                elif healths[s[-1]] == healths[c]:
-                    s.pop()
-                else:
-                    healths[s[-1]] -= 1
+        indices = list(range(n))
+        indices.sort(key=lambda x: positions[x])
+        stack = []
+        for idx in indices:
+            if directions[idx] == 'R':
+                stack.append(idx)
             else:
-                s.append(c)
-           # print(s)
-       # print(ans,s)
-        for a in s:
-            ans.append(a)
-      #  print(ans)
-        return [healths[x] for x in sorted(ans) if healths[x]>0]
+                while stack and healths[idx] > 0:
+                    if healths[idx] > healths[stack[-1]]:
+                        healths[idx] -= 1
+                        healths[stack.pop()] = 0
+                    elif healths[stack[-1]] > healths[idx]:
+                        healths[idx] = 0
+                        healths[stack[-1]] -= 1
+                    else:
+                        healths[stack.pop()] = 0
+                        healths[idx] = 0
+        res = []
+        for i in range(n):
+            if healths[i] > 0:
+                res.append(healths[i])
+        return res
 
 
-        
-        
-
-        
