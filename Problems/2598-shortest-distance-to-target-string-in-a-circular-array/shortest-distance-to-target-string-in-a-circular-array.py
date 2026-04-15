@@ -1,8 +1,4 @@
 class Solution:
-    def closestTarget(self, words: List[str], target: str, start: int) -> int:
-        ans = len(words)
+    def closestTarget(self, words: List[str], target: str, startIndex: int) -> int:
         n = len(words)
-        for ind,word in enumerate(words):
-            if word == target:
-                ans = min(ans,(ind-start+n)%n ,(start-ind+n)%n)
-        return ans if ans<n else -1
+        return min((min(abs(i - startIndex), n - abs(i - startIndex)) for i, w in enumerate(words) if w == target), default=-1)
