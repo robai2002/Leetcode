@@ -2,27 +2,19 @@ class Solution:
     def minimumHammingDistance(self, source: List[int], target: List[int], allowedSwaps: List[List[int]]) -> int:
         n = len(source)
         parent = list(range(n))
-        rank = [0] * n
+      
 
         def find(x):
             if parent[x] != x:
                 parent[x] = find(parent[x])
             return parent[x]
 
-        def uni(a, b):
-            fa, fb = find(a), find(b)
-            if fa == fb:
-                return
-
-            if rank[fa] < rank[fb]:
-                fa, fb = fb, fa
-
-            parent[fb] = fa
-            if rank[fa] == rank[fb]:
-                rank[fa] += 1
+        
 
         for a, b in allowedSwaps:
-            uni(a, b)
+            fa, fb = find(a), find(b)
+            if fa!=fb:
+                parent[fb] = fa
 
         groups = defaultdict(list)
         for i in range(n):
