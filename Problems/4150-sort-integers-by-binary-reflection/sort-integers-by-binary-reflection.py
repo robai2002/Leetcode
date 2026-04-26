@@ -1,10 +1,6 @@
 class Solution:
     def sortByReflection(self, nums: List[int]) -> List[int]:
-        t=[]
-        for i in nums:
-            b=bin(i)[2:]
-            r=b[::-1]
-            reflect=int(r,2)
-            t.append((reflect,i))
-        t.sort()
-        return [i for _,i in t]
+        def reflect(n):
+            if n == 0: return 0
+            return int(bin(n)[2:][::-1], 2)
+        return sorted(nums, key=lambda x: (reflect(x), x))
