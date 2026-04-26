@@ -1,29 +1,31 @@
 class Solution:
-    def containsCycle(self, grid: List[List[str]]) -> bool:
-        n,m = len(grid),len(grid[0])
-        isvisited = [[False]*m for i in range(n)]
-        iscycle = [[False]*m for i in range(n)]
-        
-        def dfs(indx: int,indy: int,parx: int,pary: int) ->bool:
-            if indx<0 or indy<0 or indx>=len(grid) or indy>=len(grid[0]):return False
-            if parx!=-1 and grid[indx][indy] != grid[parx][pary]:return False
-            if iscycle[indx][indy]:return True
-            if isvisited[indx][indy]:return False
-            iscycle[indx][indy] = isvisited[indx][indy] = True
-            nig = [(0,-1),(0,1),(1,0),(-1,0)]
-            for x,y in nig:
-                x+= indx
-                y+= indy
-                if x==parx and y==pary:continue
-                if dfs(x,y,indx,indy):return True
-            
-            iscycle[indx][indy] = False
+    def containsCycle(self, grid):
+        m, n = len(grid), len(grid[0])
+        parent = list(range(m * n))
+
+        def find(x):
+            while parent[x] != x:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            return x
+
+        def union(a, b):
+            pa, pb = find(a), find(b)
+            if pa == pb:
+                return True
+            parent[pa] = pb
             return False
 
-    
-        for i in range(n):
-            for j in range(m):
-                if not isvisited[i][j] and dfs(i,j,-1,-1):return True
-                
-        
+        for i in range(m):
+            for j in range(n):
+                idx = i * n + j
+
+                if i > 0 and grid[i][j] == grid[i-1][j]:
+                    if union(idx, (i-1)*n + j):
+                        return True
+
+                if j > 0 and grid[i][j] == grid[i][j-1]:
+                    if union(idx, i*n + j-1):
+                        return True
+
         return False
