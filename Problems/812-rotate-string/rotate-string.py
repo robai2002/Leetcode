@@ -6,7 +6,7 @@ class Solution:
         
         def compute_lps(pattern):
             lps = [0] * len(pattern)
-            length = 0  # length of previous longest prefix suffix
+            length = 0 
             i = 1
 
             while i < len(pattern):
