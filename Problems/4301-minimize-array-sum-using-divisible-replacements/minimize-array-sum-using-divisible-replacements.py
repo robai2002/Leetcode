@@ -1,6 +1,6 @@
 class Solution:
     def minArraySum(self, nums: list[int]) -> int:
-        M = 10**5+3
+        M = max(nums)+2
         arr = [i for i in range(M)]
         s = set(nums)
         for v in s:
