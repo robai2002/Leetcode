@@ -1,11 +1,10 @@
 class Solution:
-    def check(self, nums: List[int]) -> bool:
-        s,n = 1,len(nums) 
-        nums.extend(nums[:-1])
-        for num1,num2 in pairwise(nums):
-            if num1>num2:s = 0
-            s += 1
-            if n==s:return True
-        
-        return n==s
-        
+    def check(self, nums: list[int]) -> bool:
+        breaks = 0
+        n = len(nums)
+
+        for i in range(n):
+            if nums[i] > nums[(i + 1) % n]:
+                breaks += 1
+
+        return breaks <= 1
