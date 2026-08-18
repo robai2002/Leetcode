@@ -4,7 +4,7 @@ class Solution:
         if length == 1:
             return 0
         
-		# Calculate sum
+
         s = [0 for _ in range(length)]
         s[0] = stoneValue[0]
         for i in range(1, length):
